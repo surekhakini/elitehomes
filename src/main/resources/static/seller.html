@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteHomes | Sell Property</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F7FA;
+            color: #0A2540;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: #0A2540;
+            padding: 18px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #FFFFFF;
+            margin-left: 30px;
+            font-weight: 500;
+        }
+
+        nav a:hover { color: #C9A227; }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(rgba(10,37,64,0.85), rgba(10,37,64,0.85)),
+                        url('https://via.placeholder.com/1600x600') center/cover;
+            color: #FFFFFF;
+            padding: 120px 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* ===== MAIN CTA ===== */
+        .main-action {
+            padding: 90px 80px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .action-card {
+            background: #FFFFFF;
+            padding: 55px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 12px 30px rgba(0,0,0,.1);
+        }
+
+        .action-card h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .action-card p {
+            color: #555;
+            font-size: 17px;
+            margin-bottom: 30px;
+        }
+
+        .action-card a {
+            display: inline-block;
+            padding: 16px 36px;
+            background-color: #C9A227;
+            color: #0A2540;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .action-card a:hover {
+            background-color: #b8961f;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: #0A2540;
+            color: #FFFFFF;
+            padding: 35px 80px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="images/home.png" style="height:36px;">
+        <span style="font-size:24px;font-weight:700;color:#fff;">
+            Elite<span style="color:#C9A227;">Homes</span>
+        </span>
+    </div>
+
+    <nav>
+        <a href="seller-dashboard.html">Home</a>
+
+        <span id="authArea"><a href="login.html">Login</a></span>
+    </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <h1>Sell Your Property Faster & Smarter</h1>
+    <p>List your property in minutes and connect with verified buyers.</p>
+</section>
+
+<!-- ===== MAIN LIST PROPERTY CTA ===== -->
+<section class="main-action">
+    <div class="action-card">
+        <h2>List Your Property</h2>
+        <p>
+            Add your property details, upload images, and start receiving
+            genuine buyer inquiries today.
+        </p>
+        <a href="list-properties.html">Start Listing Now</a>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    © 2025 EliteHomes. All rights reserved.
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "login.html";
+            return;
+        }
+
+        const authArea = document.getElementById("authArea");
+        authArea.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+
+        document.getElementById("logoutBtn").onclick = () => {
+            localStorage.clear();
+            window.location.href = "login.html";
+        };
+    });
+</script>
+
+</body>
+</html>

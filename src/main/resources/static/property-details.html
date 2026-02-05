@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteHomes | Property Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* ---------- GLOBAL ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0A2540;
+            color: #0A2540;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ---------- WRAPPER ---------- */
+        .wrapper {
+            max-width: 1100px;   /* reduced width = better at 67% zoom */
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* ---------- BACK ---------- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #C9A227;
+        }
+
+        .back-link:hover {
+            color: #ffffff;
+        }
+
+        /* ---------- TITLE ---------- */
+        .page-title h1 {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .page-title p {
+            margin-top: 6px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        /* ---------- CARD ---------- */
+        .property-card {
+            margin-top: 26px;
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        /* ---------- GRID ---------- */
+        .property-grid {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            min-height: 420px;   /* FIXED HEIGHT = stable layout */
+        }
+
+        /* ---------- IMAGE ---------- */
+        .property-image {
+            width: 100%;
+            height: 100%;
+            background: #e5e7eb;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  /* keeps image perfect */
+            display: block;
+        }
+
+        /* ---------- DETAILS ---------- */
+        .property-details {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .price {
+            font-size: 30px;
+            font-weight: 800;
+            color: #C9A227;
+        }
+
+        /* ---------- INFO ---------- */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        .info-row span {
+            color: #6b7280;
+        }
+
+        /* ---------- BUTTON ---------- */
+        .contact-btn {
+            margin-top: auto;
+            padding: 14px;
+            background: #0A2540;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .contact-btn:hover {
+            background: #081f36;
+        }
+
+        /* ---------- CHAT MODAL ---------- */
+        #chatModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #chatBox {
+            width: 400px;
+            max-width: 95%;
+            height: 70%;
+            background: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chatHeader {
+            background: #0A2540;
+            color: #ffffff;
+            padding: 14px 16px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #messages {
+            flex: 1;
+            padding: 14px;
+            background: #F5F7FA;
+            overflow-y: auto;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .agent {
+            background: #0A2540;
+            color: white;
+        }
+
+        .buyer {
+            background: #C9A227;
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .chat-input button {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: none;
+            background: #0A2540;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 850px) {
+            .property-grid {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .property-image {
+                height: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <a href="properties.html" class="back-link">← Back to Properties</a>
+
+    <div class="page-title">
+        <h1 id="title">Property</h1>
+        <p><span id="action"></span> in <span id="city"></span></p>
+    </div>
+
+    <div class="property-card">
+        <div class="property-grid">
+
+            <div class="property-image">
+                <img id="image" alt="Property Image">
+            </div>
+
+            <div class="property-details">
+                <div class="price" id="price"></div>
+
+                <div class="info-row">
+                    <strong>Property Type</strong>
+                    <span id="type"></span>
+                </div>
+
+                <div class="info-row">
+                    <strong>Area</strong>
+                    <span>1200 sq.ft</span>
+                </div>
+
+                <div class="info-row">
+                    <strong>Furnishing</strong>
+                    <span>Semi-Furnished</span>
+                </div>
+
+                <button class="contact-btn" id="contactBtn">Contact Agent</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- CHAT -->
+<div id="chatModal">
+    <div id="chatBox">
+        <div id="chatHeader">
+            Chat with Agent
+            <span id="closeChat" style="cursor:pointer;">✖</span>
+        </div>
+        <div id="messages"></div>
+        <div class="chat-input">
+            <input id="msg" placeholder="Type option number...">
+            <button id="send">Send</button>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const params = new URLSearchParams(window.location.search);
+        const propertyId = params.get("id");
+        const featuredId = params.get("featured");
+
+        if (!propertyId && !featuredId) {
+            alert("Invalid property");
+            return;
+        }
+
+        /* ================= FEATURED PROPERTIES ================= */
+        if (featuredId) {
+
+            const featuredProperties = [
+                {id:101, title:"Luxury Apartment", city:"Bangalore", details:"3 BHK • 1800 sqft", price:"₹85 Lakhs", image:"https://i.pinimg.com/1200x/2b/76/cc/2b76cc89c6c9553288e83f48495a5357.jpg"},
+                {id:102, title:"Modern Villa", city:"Pune", details:"4 BHK • 2400 sqft", price:"₹1.2 Cr", image:"https://i.pinimg.com/1200x/2b/0e/a2/2b0ea2cdc3b3dcbb4ca1739cb9aaa5b5.jpg"},
+                {id:103, title:"Affordable Flat", city:"Hyderabad", details:"2 BHK • 1200 sqft", price:"₹55 Lakhs", image:"https://i.pinimg.com/1200x/1e/e6/d9/1ee6d963baa93e29d86d00eca8d1c763.jpg"},
+                {id:104, title:"Sea View Apartment", city:"Mumbai", details:"2 BHK • 950 sqft", price:"₹1.6 Cr", image:"https://i.pinimg.com/736x/56/1b/83/561b83056415f4e8e2cebb94f029e96d.jpg"},
+                {id:105, title:"Premium Villa", city:"Delhi", details:"5 BHK • 3000 sqft", price:"₹2.4 Cr", image:"https://i.pinimg.com/736x/24/f9/00/24f9003af02fab86bc38f420131ee37b.jpg"},
+                {id:106, title:"Smart City Flat", city:"Chennai", details:"3 BHK • 1500 sqft", price:"₹72 Lakhs", image:"https://i.pinimg.com/736x/61/4a/af/614aafe889421a321f6676af8e39cf45.jpg"},
+                {id:107, title:"Budget Apartment", city:"Kolkata", details:"2 BHK • 1100 sqft", price:"₹48 Lakhs", image:"https://i.pinimg.com/1200x/6a/c1/e1/6ac1e12b7ad828a7a8a03161a24ed454.jpg"},
+                {id:108, title:"Green Villa", city:"Ahmedabad", details:"4 BHK • 2200 sqft", price:"₹95 Lakhs", image:"https://i.pinimg.com/1200x/36/c4/0a/36c40a1c57a433e4b66a7cc942bdd52c.jpg"},
+                {id:109, title:"Royal Residency", city:"Jaipur", details:"3 BHK • 1400 sqft", price:"₹62 Lakhs", image:"https://i.pinimg.com/736x/bb/90/0c/bb900c9e426a2a13b5576366c9c9cec9.jpg"},
+                {id:110, title:"Skyline Residency", city:"Noida", details:"3 BHK • 1650 sqft", price:"₹78 Lakhs", image:"https://i.pinimg.com/1200x/c2/12/f4/c212f495a038daadcefd6e2e7802b2a1.jpg"},
+                {id:111, title:"Elite Green Villa", city:"Indore", details:"4 BHK • 2100 sqft", price:"₹92 Lakhs", image:"https://i.pinimg.com/1200x/46/15/57/4615575ee4f0ad84ce04559732f0accb.jpg"},
+                {id:112, title:"Urban Comfort Homes", city:"Nagpur", details:"2 BHK • 1150 sqft", price:"₹49 Lakhs", image:"https://i.pinimg.com/736x/6a/ca/11/6aca11731e8ffc3b84b9b49e1cba7486.jpg"}
+            ];
+
+            const p = featuredProperties.find(f => f.id == featuredId);
+
+            if (!p) {
+                alert("Property not found");
+                return;
+            }
+
+            document.getElementById("title").innerText = p.title;
+            document.getElementById("city").innerText = p.city;
+            document.getElementById("action").innerText = "Buy";
+            document.getElementById("price").innerText = p.price;
+            document.getElementById("type").innerText = p.details;
+            document.getElementById("image").src = p.image;
+
+            initChat(); // enable chat
+            return; // 🔴 stop backend calls
+        }
+
+        /* ================= BACKEND PROPERTY ================= */
+
+        fetch(`http://localhost:8083/api/properties/${propertyId}/view`, {
+            method: "PUT"
+        });
+
+        fetch(`http://localhost:8083/api/properties/${propertyId}`)
+            .then(res => res.json())
+            .then(p => {
+                document.getElementById("title").innerText = p.title;
+                document.getElementById("city").innerText = p.city;
+                document.getElementById("action").innerText = "Buy";
+                document.getElementById("price").innerText = "₹" + p.price;
+                document.getElementById("type").innerText = p.details;
+                document.getElementById("image").src = p.imageUrl;
+            })
+            .catch(() => alert("Property not found"));
+
+        initChat();
+
+        /* ================= CHAT ================= */
+        function initChat() {
+            const modal = document.getElementById("chatModal");
+            const messages = document.getElementById("messages");
+
+            function add(sender, text, cls) {
+                const d = document.createElement("div");
+                d.className = `message ${cls}`;
+                d.innerHTML = `<strong>${sender}</strong><br>${text}`;
+                messages.appendChild(d);
+                messages.scrollTop = messages.scrollHeight;
+            }
+
+            document.getElementById("contactBtn").onclick = () => {
+                modal.style.display = "flex";
+                if (!messages.children.length) {
+                    add(
+                        "Agent",
+                        "Hello 😊<br>1️⃣ Buy<br>2️⃣ Rent details<br>3️⃣ Price negotiation<br>4️⃣ Request call back",
+                        "agent"
+                    );
+                }
+            };
+
+            document.getElementById("closeChat").onclick = () => {
+                modal.style.display = "none";
+            };
+
+            document.getElementById("send").onclick = () => {
+                const input = document.getElementById("msg");
+                if (!input.value) return;
+                add("You", input.value, "buyer");
+                input.value = "";
+            };
+        }
+
+    });
+</script>
+
+
+
+</body>
+</html>

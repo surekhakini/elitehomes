@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Properties | EliteHomes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* ===== GLOBAL ===== */
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body{
+            background:#f5f7fa;
+            color:#0A2540;
+        }
+        a{ text-decoration:none; color:inherit; }
+
+        /* ===== NAVBAR (SAME AS INDEX) ===== */
+        header{
+            background:#0A2540;
+            padding:18px 80px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        nav{
+            display:flex;
+            align-items:center;
+            gap:30px;
+        }
+        nav a{
+            color:#fff;
+            font-size:15px;
+            font-weight:500;
+        }
+        nav a:hover{ color:#C9A227; }
+
+        /* ===== PAGE HEADER ===== */
+        .page-title{
+            text-align:center;
+            padding:50px 20px 20px;
+        }
+        .page-title h1{
+            font-size:34px;
+            margin-bottom:10px;
+        }
+        .page-title p{
+            color:#6b7280;
+        }
+
+        /* ===== PROPERTY GRID (SAME CARD DESIGN) ===== */
+        .property-grid{
+            padding:40px 80px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+            gap:32px;
+        }
+
+        .property-card{
+            background:#fff;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 10px 30px rgba(0,0,0,0.08);
+            transition:all 0.35s ease;
+            cursor:pointer;
+            position:relative;
+        }
+        .property-card:hover{
+            transform:translateY(-10px);
+            box-shadow:0 18px 40px rgba(0,0,0,0.12);
+        }
+
+        .property-card img{
+            width:100%;
+            height:210px;
+            object-fit:cover;
+            transition:transform 0.5s ease;
+        }
+        .property-card:hover img{
+            transform:scale(1.08);
+        }
+
+        .property-info{
+            padding:22px;
+        }
+        .property-info h3{
+            font-size:18px;
+            margin-bottom:6px;
+        }
+        .property-info p{
+            font-size:14px;
+            color:#6b7280;
+            margin-bottom:6px;
+        }
+        .price{
+            font-size:16px;
+            font-weight:700;
+            color:#2563eb;
+        }
+
+        /* ===== FOOTER (SAME AS INDEX) ===== */
+        footer{
+            background:#0A2540;
+            color:#fff;
+            padding:40px 80px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:60px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:768px){
+            header{ padding:18px 30px; }
+            .property-grid{ padding:30px; }
+            footer{ padding:30px; flex-direction:column; gap:10px; }
+        }
+        /* Wishlist Heart */
+.wishlist-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    transition: all 0.25s ease;
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.1);
+}
+
+.wishlist-btn.active {
+    color: #e11d48;
+    animation: heartPop 0.35s ease;
+}
+
+@keyframes heartPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.35); }
+    100% { transform: scale(1); }
+}
+
+/* IMPORTANT */
+.property-card {
+    position: relative;
+}
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="images/home.png" style="height:36px;">
+        <span style="font-size:24px;font-weight:700;color:#fff;">Elite<span style="color:#C9A227;">Homes</span></span>
+    </div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="seller.html" id="sellerLink" style="display:none;">Sell</a>
+        <a href="login.html" id="logoutBtn">Logout</a>
+    </nav>
+</header>
+
+<!-- PAGE TITLE -->
+<div class="page-title">
+    <h1>All Properties</h1>
+    <p>Featured homes + newly added listings</p>
+</div>
+
+<!-- PROPERTY GRID -->
+<div class="property-grid" id="propertyGrid"></div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 EliteHomes. All rights reserved.</p>
+    <p>Built with professionalism & trust.</p>
+</footer>
+
+<script>
+    /* ===== SAME 12 FEATURED PROPERTIES ===== */
+    const featuredProperties = [
+     {id:101 , title:"Luxury Apartment",city:"Bangalore",details:"3 BHK • 1800 sqft",price:"₹85 Lakhs",image:"https://i.pinimg.com/1200x/2b/76/cc/2b76cc89c6c9553288e83f48495a5357.jpg"},
+     {id:102,title:"Modern Villa",city:"Pune",details:"4 BHK • 2400 sqft",price:"₹1.2 Cr",image:"https://i.pinimg.com/1200x/2b/0e/a2/2b0ea2cdc3b3dcbb4ca1739cb9aaa5b5.jpg"},
+     {id:103,title:"Affordable Flat",city:"Hyderabad",details:"2 BHK • 1200 sqft",price:"₹55 Lakhs",image:"https://i.pinimg.com/1200x/1e/e6/d9/1ee6d963baa93e29d86d00eca8d1c763.jpg"},
+     {id:104,title:"Sea View Apartment",city:"Mumbai",details:"2 BHK • 950 sqft",price:"₹1.6 Cr",image:"https://i.pinimg.com/736x/56/1b/83/561b83056415f4e8e2cebb94f029e96d.jpg"},
+     {id:105,title:"Premium Villa",city:"Delhi",details:"5 BHK • 3000 sqft",price:"₹2.4 Cr",image:"https://i.pinimg.com/736x/24/f9/00/24f9003af02fab86bc38f420131ee37b.jpg"},
+     {id:106,title:"Smart City Flat",city:"Chennai",details:"3 BHK • 1500 sqft",price:"₹72 Lakhs",image:"https://i.pinimg.com/736x/61/4a/af/614aafe889421a321f6676af8e39cf45.jpg"},
+     {id:107,title:"Budget Apartment",city:"Kolkata",details:"2 BHK • 1100 sqft",price:"₹48 Lakhs",image:"https://i.pinimg.com/1200x/6a/c1/e1/6ac1e12b7ad828a7a8a03161a24ed454.jpg"},
+     {id:108,title:"Green Villa",city:"Ahmedabad",details:"4 BHK • 2200 sqft",price:"₹95 Lakhs",image:"https://i.pinimg.com/1200x/36/c4/0a/36c40a1c57a433e4b66a7cc942bdd52c.jpg"},
+     {id:109,title:"Royal Residency",city:"Jaipur",details:"3 BHK • 1400 sqft",price:"₹62 Lakhs",image:"https://i.pinimg.com/736x/bb/90/0c/bb900c9e426a2a13b5576366c9c9cec9.jpg"},
+     {id:110,title:"Skyline Residency",city:"Noida",details:"3 BHK • 1650 sqft",price:"₹78 Lakhs",image:"https://i.pinimg.com/1200x/c2/12/f4/c212f495a038daadcefd6e2e7802b2a1.jpg"},
+     {id:111,title:"Elite Green Villa",city:"Indore",details:"4 BHK • 2100 sqft",price:"₹92 Lakhs",image:"https://i.pinimg.com/1200x/46/15/57/4615575ee4f0ad84ce04559732f0accb.jpg"},
+     {id:112,title:"Urban Comfort Homes",city:"Nagpur",details:"2 BHK • 1150 sqft",price:"₹49 Lakhs",image:"https://i.pinimg.com/736x/6a/ca/11/6aca11731e8ffc3b84b9b49e1cba7486.jpg"}
+    ];
+
+// ===== READ SEARCH PARAMS =====
+const params = new URLSearchParams(window.location.search);
+const selectedCity = params.get("city");   // Mumbai
+const selectedType = params.get("type");   // Buy
+
+
+    function applySearchFilter(list) {
+    if (!selectedCity) return list;
+
+    return list.filter(p =>
+        p.city.toLowerCase() === selectedCity.toLowerCase()
+    );
+}
+if (selectedCity) {
+    document.querySelector(".page-title h1").innerText =
+        `Properties in ${selectedCity}`;
+}
+
+const grid = document.getElementById("propertyGrid");
+function render(list) {
+    grid.innerHTML = "";
+
+    list.forEach(p => {
+
+        const card = document.createElement("div");
+        card.className = "property-card";
+        card.addEventListener("click", () => {
+    if (p.image && p.details) {
+        openFeaturedProperty(p.id);
+    } else {
+        openBackendProperty(p.id);
+    }
+});
+
+
+        card.innerHTML = `
+            <img src="${p.image || p.imageUrl}">
+            <div class="property-info">
+                <h3>${p.title}</h3>
+                <p>${p.city} • ${p.details || p.description}</p>
+                <p class="price">${p.price}</p>
+            </div>
+            <button class="wishlist-btn">❤</button>
+        `;
+
+        const btn = card.querySelector(".wishlist-btn");
+        btn.addEventListener("click", (event) =>
+            addToWishlist(
+                event,
+                btn,
+                p.id,
+                p.title,
+                p.city,
+                p.price,
+                p.details || p.description,
+                p.image || p.imageUrl
+            )
+        );
+
+        grid.appendChild(card);
+    });
+}
+
+
+fetch("http://localhost:8083/api/properties")
+    .then(r => r.json())
+    .then(data => {
+
+        const backend = data.filter(
+            bp => !featuredProperties.some(
+                fp => fp.title === bp.title && fp.city === bp.city
+            )
+        );
+
+        const combined = [...featuredProperties, ...backend];
+
+        const filtered = applySearchFilter(combined);
+
+        render(filtered);
+    })
+    .catch(() => {
+        const filtered = applySearchFilter(featuredProperties);
+        render(filtered);
+    });
+
+
+</script>
+<script>
+    function addToWishlist(event, btn, propertyId, title, city, price, details, imageUrl) {
+        event.stopPropagation();
+
+        btn.classList.add("active");
+
+        const username = localStorage.getItem("username");
+        if (!username) {
+            alert("Please login first");
+            return;
+        }
+
+        fetch("http://localhost:8083/api/wishlist", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username,
+                propertyId,
+                title,
+                city,
+                description: details,
+                price,
+                imageUrl
+            })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error("Failed");
+            return res.json();
+        })
+        .then(() => {
+            window.location.href = "wishlist.html";
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Wishlist failed");
+        });
+    }
+</script>
+<script>
+    function openFeaturedProperty(id) {
+    window.location.href = `property-details.html?featured=${id}`;
+}
+
+function openBackendProperty(id) {
+    fetch(`http://localhost:8083/api/properties/${id}/view`, {
+        method: "PUT"
+    }).finally(() => {
+        window.location.href = `property-details.html?id=${id}`;
+    });
+}
+
+</script>
+</body>
+</html>

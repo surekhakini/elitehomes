@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteHomes | Wishlist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    /* ------------------ CSS RESET ------------------ */
+    *,
+    *::before,
+    *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+
+    /* ------------------ ROOT VARIABLES ------------------ */
+    :root {
+    --primary-dark: #0A2540;
+    --accent-gold: #C9A227;
+    --primary-blue: #2563eb;
+    --bg-light: #F5F7FA;
+    --text-dark: #0A2540;
+    --text-muted: #6b7280;
+    --card-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ------------------ BASE ------------------ */
+    body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    }
+
+    a {
+    text-decoration: none;
+    color: inherit;
+    }
+
+    /* ------------------ HEADER ------------------ */
+    header {
+    background-color: var(--primary-dark);
+    padding: 16px 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    nav {
+    display: flex;
+    gap: 28px;
+    }
+
+    nav a {
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+    color: var(--accent-gold);
+    }
+
+    /* ------------------ HERO ------------------ */
+    .hero {
+    background: linear-gradient(
+    rgba(10, 37, 64, 0.88),
+    rgba(10, 37, 64, 0.88)
+    ),
+    url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') center / cover no-repeat;
+
+    color: #ffffff;
+    padding: 80px 6vw;
+    }
+
+    .hero h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    margin-bottom: 12px;
+    }
+
+    .hero p {
+    max-width: 650px;
+    font-size: 16px;
+    color: #e5e7eb;
+    }
+
+    /* ------------------ SECTION ------------------ */
+    .section {
+    padding: 70px 6vw;
+    background-color: #ffffff;
+    }
+
+    /* ------------------ WISHLIST GRID ------------------ */
+    .wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+    }
+
+    /* ------------------ CARD ------------------ */
+    .wishlist-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .wishlist-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    .wishlist-card img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    display: block;
+    }
+
+    /* ------------------ CARD INFO ------------------ */
+    .wishlist-info {
+    padding: 20px 22px 24px;
+    }
+
+    .wishlist-info h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    }
+
+    .wishlist-info p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    }
+
+    .price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    }
+
+    /* ------------------ REMOVE BUTTON ------------------ */
+    .remove-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .remove-btn:hover {
+    background: #fee2e2;
+    transform: scale(1.08);
+    }
+
+    /* ------------------ EMPTY STATE ------------------ */
+    .empty-state {
+    text-align: center;
+    padding: 90px 20px;
+    color: var(--text-muted);
+    display: none;
+    }
+
+    .empty-state h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+    }
+
+    .empty-state p {
+    font-size: 15px;
+    margin-bottom: 24px;
+    }
+
+    .empty-state a {
+    display: inline-block;
+    padding: 12px 26px;
+    background: var(--primary-blue);
+    color: #ffffff;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+    }
+
+    .empty-state a:hover {
+    background: #1e40af;
+    }
+
+    /* ------------------ FOOTER ------------------ */
+    footer {
+    background-color: var(--primary-dark);
+    color: #ffffff;
+    padding: 36px 6vw;
+    text-align: center;
+    font-size: 14px;
+    }
+
+    /* ------------------ RESPONSIVE TWEAKS ------------------ */
+    @media (max-width: 768px) {
+    header {
+    flex-direction: column;
+    gap: 14px;
+    }
+
+    nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    }
+
+    .hero {
+    padding: 60px 6vw;
+    }
+
+    .section {
+    padding: 60px 6vw;
+    }
+    }
+
+    @media (max-width: 480px) {
+    .wishlist-card img {
+    height: 190px;
+    }
+
+    .wishlist-info h3 {
+    font-size: 17px;
+    }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <strong style="color:white;font-size:22px;">
+            Elite<span style="color:#C9A227;">Homes</span>
+        </strong>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" id="logoutBtn">Logout</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Your Wishlist</h1>
+    <p>All the properties you loved, saved in one place ❤️</p>
+</section>
+
+<section class="section">
+    <div id="wishlistContainer" class="wishlist-grid"></div>
+
+    <div id="emptyState" class="empty-state">
+        <h2>No properties in your wishlist</h2>
+        <p>Start exploring and save your favourite homes</p>
+        <a href="index.html">Browse Properties</a>
+    </div>
+</section>
+
+<footer>
+    © 2025 EliteHomes. All rights reserved.
+</footer>
+
+<script>
+    let container;
+    let emptyState;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        container = document.getElementById("wishlistContainer");
+        emptyState = document.getElementById("emptyState");
+
+        const username = localStorage.getItem("username");
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+        if (!isLoggedIn || !username) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        loadWishlist();
+    });
+
+    function loadWishlist() {
+        const username = localStorage.getItem("username");
+
+        fetch(`http://localhost:8083/api/wishlist/user/${username}`)
+            .then(res => res.json())
+            .then(wishlist => {
+
+                container.innerHTML = "";
+
+                if (!wishlist || wishlist.length === 0) {
+                    emptyState.style.display = "block";
+                    return;
+                }
+
+                emptyState.style.display = "none";
+
+                wishlist.forEach(item => {
+                    const card = document.createElement("div");
+                    card.className = "wishlist-card";
+
+                    card.innerHTML = `
+                        <button class="remove-btn" onclick="removeFromWishlist(${item.id})">✕</button>
+                        <img src="${item.imageUrl}" alt="Property">
+                        <div class="wishlist-info">
+                            <h3>${item.title}</h3>
+                            <p>${item.city || ""}</p>
+                            <p class="price">₹ ${item.price}</p>
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                });
+            })
+            .catch(err => {
+                console.error("Wishlist load failed:", err);
+                emptyState.style.display = "block";
+            });
+    }
+
+    function removeFromWishlist(id) {
+        fetch(`http://localhost:8083/api/wishlist/${id}`, {
+            method: "DELETE"
+        })
+        .then(() => loadWishlist())
+        .catch(err => console.error("Delete failed:", err));
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.clear();
+        window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>

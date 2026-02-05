@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteHomes | List Property</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #0A2540;
+            color: #0A2540;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: #0A2540;
+            padding: 18px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #FFFFFF;
+            margin-left: 30px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #C9A227;
+        }
+
+        /* ===== PAGE BODY ===== */
+        .list-section {
+            padding: 90px 80px;
+        }
+
+        .list-card {
+            max-width: 900px;
+            margin: auto;
+            background: #FFFFFF;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+        }
+
+        .list-card h1 {
+            margin-bottom: 8px;
+        }
+
+        .list-card p {
+            color: #555;
+            margin-bottom: 35px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        button {
+            margin-top: 30px;
+            width: 100%;
+            padding: 15px;
+            background-color: #C9A227;
+            color: #0A2540;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b8961f;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: #0A2540;
+            color: #FFFFFF;
+            padding: 35px 80px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="images/home.png" alt="EliteHomes Logo" style="height:36px;">
+        <span style="font-size:24px;font-weight:700;color:#FFFFFF;">
+            Elite<span style="color:#C9A227;">Homes</span>
+        </span>
+    </div>
+
+    <nav>
+        <a href="seller-dashboard.html">Home</a>
+        <a href="seller.html">Sell</a>
+    </nav>
+</header>
+
+<!-- ===== LIST PROPERTY ===== -->
+<section class="list-section">
+    <div class="list-card">
+        <h1>List Your Property</h1>
+        <p>Fill in the details below to reach verified buyers quickly.</p>
+
+        <form id="propertyForm" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div>
+                    <label>Property Title</label>
+                    <input type="text" name="title" required>
+                </div>
+
+                <div>
+                    <label>City</label>
+                    <input type="text" name="city" required>
+                </div>
+
+                <div>
+                    <label>Property Type</label>
+                    <select name="type">
+                        <option>Apartment</option>
+                        <option>Villa</option>
+                        <option>Independent House</option>
+                        <option>Plot</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Price (₹)</label>
+                    <input type="number" name="price" required>
+                </div>
+
+                <div class="full">
+                    <label>Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+
+                <div class="full">
+                    <label>Property Image</label>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+            </div>
+            <div class="full">
+                <label>Seller Username</label>
+                <input type="text" name="sellerUsername" required>
+            </div>
+
+            <button type="submit">Submit Property</button>
+        </form>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    © 2025 EliteHomes. All rights reserved.
+</footer>
+
+<script>
+    document.getElementById("propertyForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        const response = await fetch("http://localhost:8083/api/properties", {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("Property listed successfully!");
+            e.target.reset();
+        } else {
+            alert("Error while listing property");
+        }
+    });
+</script>
+
+</body>
+</html>

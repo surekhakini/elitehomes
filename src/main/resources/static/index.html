@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteHomes | Find Your Perfect Property</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* ---------- Global Styles ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: #0A2540;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ---------- Navbar ---------- */
+        header {
+            background-color: #0A2540;
+            padding: 18px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .logo span {
+            color: #C9A227;
+        }
+
+        nav a {
+            color: #FFFFFF;
+            margin-left: 30px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #C9A227;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #C9A227;
+            color: #C9A227;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #C9A227;
+            color: white;
+        }
+
+/* ---------- Hero Section ---------- */
+.hero {
+    position: relative;
+    padding: 90px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 90vh;
+    overflow: hidden;
+}
+
+/* Background image – SHARP */
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(10, 37, 64, 0.30), rgba(10, 37, 64, 0.30)),
+        url("images/mainbg.jpeg") center center / cover no-repeat;
+    z-index: 0;
+}
+
+/* Text stays sharp */
+.hero-text {
+    position: relative;
+    max-width: 50%;
+    z-index: 2;
+    color: #ffffff;
+}
+
+.hero-text h1 {
+    font-size: 44px;
+    margin-bottom: 20px;
+}
+
+.hero-text p {
+    font-size: 17px;
+    margin-bottom: 35px;
+    color: #f1f5f9;
+}
+
+/* ===== Search Box Wrapper ===== */
+.search-box {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 18px;
+    border-radius: 16px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.2fr auto;
+    gap: 14px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(12px);
+    max-width: 820px;
+    width: 100%;
+}
+
+/* ===== Inputs & Selects ===== */
+.search-box input,
+.search-box select {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    background: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* Focus Effect */
+.search-box input:focus,
+.search-box select:focus {
+    border-color: #C9A227;
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
+}
+
+/* Placeholder */
+.search-box input::placeholder {
+    color: #9ca3af;
+}
+
+/* ===== Search Button ===== */
+.search-box button {
+    padding: 14px 26px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #C9A227, #b8961f);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Button Hover */
+.search-box button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(201, 162, 39, 0.45);
+}
+
+/* ===== City Suggestion Box ===== */
+#suggestions {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 10;
+    display: none;
+}
+
+/* Make city input relative */
+.city-box {
+    position: relative;
+}
+
+/* Suggestion Items */
+#suggestions div {
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#suggestions div:hover {
+    background: #f3f4f6;
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 768px) {
+    .search-box {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+}
+
+
+        /* ---------- Featured Properties ---------- */
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+}
+
+.property-card {
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+}
+
+.property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+/* Wishlist Heart */
+.wishlist-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    cursor: pointer;
+    color: #9ca3af; /* grey */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    transition: all 0.25s ease;
+}
+/* Heart click animation */
+.wishlist-btn.active {
+    color: #e11d48;
+    background: #fff;
+    animation: heartPop 0.35s ease;
+}
+
+@keyframes heartPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.35);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Hover */
+.wishlist-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Active (Wishlisted) */
+.wishlist-btn.active {
+    color: #e11d48; /* red */
+    background: #fff;
+}
+
+/* Make property-card relative */
+.property-card {
+    position: relative;
+}
+
+/* Image styling */
+.property-card img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.property-card:hover img {
+    transform: scale(1.08);
+}
+
+/* Info section */
+.property-info {
+    padding: 22px;
+}
+
+.property-info h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0A2540;
+    margin-bottom: 6px;
+}
+
+.property-info p {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Price */
+.price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-top: 6px;
+}
+
+
+        /* ---------- Why Choose Us ---------- */
+        .features {
+            background-color: #F5F7FA;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .feature-box {
+            padding: 30px;
+        }
+
+        .feature-box h4 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature-box p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            background-color: #0A2540;
+            color: #FFFFFF;
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        .btn-primary {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #2563eb;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background: #1e40af;
+}
+/* ---------- Section Spacing ---------- */
+section {
+    padding: 80px;
+}
+
+/* ---------- Featured Section ---------- */
+.featured {
+    background: #ffffff;
+}
+
+.section-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #0A2540;
+    text-align: center;
+}
+
+/* ---------- Fix Property Grid Alignment ---------- */
+.property-grid {
+    max-width: 1200px;
+    margin: 0 auto;          /* centers grid */
+}
+
+/* ---------- Mobile Fix ---------- */
+@media (max-width: 768px) {
+    section {
+        padding: 60px 20px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header>
+    <!-- Logo -->
+    <div style="display:flex; align-items:center; gap:10px;">
+        <img src="images/home.png" alt="EliteHomes Logo" style="height:38px; width:auto;">
+        <span style="font-size:24px; font-weight:700; color:#FFFFFF;">
+                Elite<span style="color:#C9A227;">Homes</span>
+            </span>
+    </div>
+
+    <!-- Navigation -->
+    <nav style="display:flex; align-items:center; gap:30px;">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="seller.html" id="sellerLink" style="display:none;">Sell</a>
+        <a href="login.html">Logout</a>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-bg"></div>
+
+    <div class="hero-text">
+        <h1>Find Your Perfect Home With Confidence</h1>
+        <p>
+            Discover verified properties, trusted agents, and smart tools designed to help you make the right decision.
+        </p>
+
+        <div class="search-box">
+            <div class="city-box">
+                <input type="text" id="cityInput" placeholder="City" onkeyup="showSuggestions()">
+                <div id="suggestions"></div>
+            </div>
+
+            <select>
+                <option>Buy</option>
+                <option>Rent</option>
+            </select>
+
+            <select>
+                <option>Property Type</option>
+                <option>Apartment</option>
+                <option>Villa</option>
+            </select>
+
+            <button onclick="searchProperty()">Search</button>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties -->
+<section class="section">
+    <h2 class="section-title">Featured Properties</h2>
+
+    <div class="property-grid">
+
+        <!-- 1 -->
+        <div class="property-card" onclick="openProperty(101)">
+
+            <img src="https://i.pinimg.com/1200x/2b/76/cc/2b76cc89c6c9553288e83f48495a5357.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Luxury Apartment</h3>
+                <p>Bangalore • 3 BHK • 1800 sqft</p>
+                <p class="price">₹85 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Luxury Apartment','Bangalore','₹85 Lakhs','3 BHK • 1800 sqft','https://i.pinimg.com/1200x/2b/76/cc/2b76cc89c6c9553288e83f48495a5357.jpg')">❤</button>
+        </div>
+
+        <!-- 2 -->
+        <div class="property-card" onclick="openProperty(102)">
+            <img src="https://i.pinimg.com/1200x/2b/0e/a2/2b0ea2cdc3b3dcbb4ca1739cb9aaa5b5.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Modern Villa</h3>
+                <p>Pune • 4 BHK • 2400 sqft</p>
+                <p class="price">₹1.2 Cr</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Modern Villa','Pune','₹1.2 Cr','4 BHK • 2400 sqft','https://i.pinimg.com/1200x/2b/0e/a2/2b0ea2cdc3b3dcbb4ca1739cb9aaa5b5.jpg')">❤</button>
+        </div>
+
+        <!-- 3 -->
+        <div class="property-card" onclick="openProperty(103)">
+            <img src="https://i.pinimg.com/1200x/1e/e6/d9/1ee6d963baa93e29d86d00eca8d1c763.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Affordable Flat</h3>
+                <p>Hyderabad • 2 BHK • 1200 sqft</p>
+                <p class="price">₹55 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Affordable Flat','Hyderabad','₹55 Lakhs','2 BHK • 1200 sqft','https://i.pinimg.com/1200x/1e/e6/d9/1ee6d963baa93e29d86d00eca8d1c763.jpg')">❤</button>
+        </div>
+
+        <!-- 4 -->
+        <div class="property-card" onclick="openProperty(104)">
+            <img src="https://i.pinimg.com/736x/56/1b/83/561b83056415f4e8e2cebb94f029e96d.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Sea View Apartment</h3>
+                <p>Mumbai • 2 BHK • 950 sqft</p>
+                <p class="price">₹1.6 Cr</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Sea View Apartment','Mumbai','₹1.6 Cr','2 BHK • 950 sqft','https://i.pinimg.com/736x/56/1b/83/561b83056415f4e8e2cebb94f029e96d.jpg')">❤</button>
+        </div>
+
+        <!-- 5 -->
+        <div class="property-card" onclick="openProperty(105)">
+            <img src="https://i.pinimg.com/736x/24/f9/00/24f9003af02fab86bc38f420131ee37b.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Premium Villa</h3>
+                <p>Delhi • 5 BHK • 3000 sqft</p>
+                <p class="price">₹2.4 Cr</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Premium Villa','Delhi','₹2.4 Cr','5 BHK • 3000 sqft','https://i.pinimg.com/736x/24/f9/00/24f9003af02fab86bc38f420131ee37b.jpg')">❤</button>
+        </div>
+
+        <!-- 6 -->
+        <div class="property-card" onclick="openProperty(106)">
+            <img src="https://i.pinimg.com/736x/61/4a/af/614aafe889421a321f6676af8e39cf45.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Smart City Flat</h3>
+                <p>Chennai • 3 BHK • 1500 sqft</p>
+                <p class="price">₹72 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Smart City Flat','Chennai','₹72 Lakhs','3 BHK • 1500 sqft','https://i.pinimg.com/736x/61/4a/af/614aafe889421a321f6676af8e39cf45.jpg')">❤</button>
+        </div>
+
+        <!-- 7 -->
+        <div class="property-card" onclick="openProperty(107)">
+            <img src="https://i.pinimg.com/1200x/6a/c1/e1/6ac1e12b7ad828a7a8a03161a24ed454.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Budget Apartment</h3>
+                <p>Kolkata • 2 BHK • 1100 sqft</p>
+                <p class="price">₹48 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Budget Apartment','Kolkata','₹48 Lakhs','2 BHK • 1100 sqft','https://i.pinimg.com/1200x/6a/c1/e1/6ac1e12b7ad828a7a8a03161a24ed454.jpg')">❤</button>
+        </div>
+
+        <!-- 8 -->
+        <div class="property-card" onclick="openProperty(108)">
+            <img src="https://i.pinimg.com/1200x/36/c4/0a/36c40a1c57a433e4b66a7cc942bdd52c.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Green Villa</h3>
+                <p>Ahmedabad • 4 BHK • 2200 sqft</p>
+                <p class="price">₹95 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Green Villa','Ahmedabad','₹95 Lakhs','4 BHK • 2200 sqft','https://i.pinimg.com/1200x/36/c4/0a/36c40a1c57a433e4b66a7cc942bdd52c.jpg')">❤</button>
+        </div>
+
+        <!-- 9 -->
+        <div class="property-card" onclick="openProperty(109)">
+            <img src="https://i.pinimg.com/736x/bb/90/0c/bb900c9e426a2a13b5576366c9c9cec9.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Royal Residency</h3>
+                <p>Jaipur • 3 BHK • 1400 sqft</p>
+                <p class="price">₹62 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Royal Residency','Jaipur','₹62 Lakhs','3 BHK • 1400 sqft','https://i.pinimg.com/736x/bb/90/0c/bb900c9e426a2a13b5576366c9c9cec9.jpg')">❤</button>
+        </div>
+
+        <!-- 10 -->
+        <div class="property-card" onclick="openProperty(110)">
+            <img src="https://i.pinimg.com/1200x/c2/12/f4/c212f495a038daadcefd6e2e7802b2a1.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Skyline Residency</h3>
+                <p>Noida • 3 BHK • 1650 sqft</p>
+                <p class="price">₹78 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Skyline Residency','Noida','₹78 Lakhs','3 BHK • 1650 sqft','https://i.pinimg.com/1200x/c2/12/f4/c212f495a038daadcefd6e2e7802b2a1.jpg')">❤</button>
+        </div>
+
+        <!-- 11 -->
+        <div class="property-card" onclick="openProperty(111)">
+            <img src="https://i.pinimg.com/1200x/46/15/57/4615575ee4f0ad84ce04559732f0accb.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Elite Green Villa</h3>
+                <p>Indore • 4 BHK • 2100 sqft</p>
+                <p class="price">₹92 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Elite Green Villa','Indore','₹92 Lakhs','4 BHK • 2100 sqft','https://i.pinimg.com/1200x/46/15/57/4615575ee4f0ad84ce04559732f0accb.jpg')">❤</button>
+        </div>
+
+        <!-- 12 -->
+        <div class="property-card" onclick="openProperty(112)">
+            <img src="https://i.pinimg.com/736x/6a/ca/11/6aca11731e8ffc3b84b9b49e1cba7486.jpg" alt="Property">
+            <div class="property-info">
+                <h3>Urban Comfort Homes</h3>
+                <p>Nagpur • 2 BHK • 1150 sqft</p>
+                <p class="price">₹49 Lakhs</p>
+            </div>
+            <button class="wishlist-btn" onclick="addToWishlist(event, this,'Urban Comfort Homes','Nagpur','₹49 Lakhs','2 BHK • 1150 sqft','https://i.pinimg.com/736x/6a/ca/11/6aca11731e8ffc3b84b9b49e1cba7486.jpg')">❤</button>
+        </div>
+
+
+
+    </div>
+
+    <!-- Explore More -->
+    <div style="text-align:center; margin-top:30px;">
+        <a href="properties.html" class="btn-primary">Explore More Properties</a>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section features">
+    <div class="feature-box">
+        <h4>Verified Listings</h4>
+        <p>All properties are verified to ensure trust and transparency.</p>
+    </div>
+    <div class="feature-box">
+        <h4>Expert Agents</h4>
+        <p>Connect with experienced agents for smooth transactions.</p>
+    </div>
+    <div class="feature-box">
+        <h4>Smart Search</h4>
+        <p>Advanced filters to help you find properties faster.</p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 EliteHomes. All rights reserved.</p>
+    <p>Built with professionalism & trust.</p>
+</footer>
+<script>
+    // ------------------ CITY LIST (90+) ------------------
+    const cities = [
+        "Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Kolkata",
+        "Pune","Ahmedabad","Jaipur","Chandigarh","Indore","Bhopal",
+        "Lucknow","Kanpur","Agra","Varanasi","Prayagraj","Patna",
+        "Ranchi","Jamshedpur","Dhanbad","Bhubaneswar","Cuttack",
+        "Raipur","Bilaspur","Nagpur","Amravati","Nashik","Aurangabad",
+        "Thane","Kalyan","Dombivli","Panvel","Murbad","Ulhasnagar",
+        "Mangalore","Udupi","Manipal","Hubli","Dharwad","Belgaum",
+        "Shimoga","Davangere","Chitradurga","Mysore","Mandya",
+        "Madurai","Trichy","Coimbatore","Salem","Erode","Vellore",
+        "Tirunelveli","Thoothukudi","Nagercoil","Kochi","Trivandrum",
+        "Kozhikode","Thrissur","Kannur","Palakkad","Alappuzha",
+        "Kollam","Kottayam","Vijayawada","Guntur","Vizag","Rajahmundry",
+        "Tirupati","Nellore","Kurnool","Anantapur","Kadapa",
+        "Warangal","Karimnagar","Nizamabad","Sangareddy",
+        "Noida","Greater Noida","Ghaziabad","Faridabad","Gurgaon"
+    ];
+
+    // ------------------ CITY AUTOCOMPLETE ------------------
+    function showSuggestions() {
+        const input = document.getElementById("cityInput").value.toLowerCase();
+        const suggestionBox = document.getElementById("suggestions");
+        suggestionBox.innerHTML = "";
+
+        if (input === "") {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        const filteredCities = cities.filter(city =>
+            city.toLowerCase().startsWith(input)
+        );
+
+        if (filteredCities.length === 0) {
+            suggestionBox.style.display = "none";
+            return;
+        }
+
+        filteredCities.forEach(city => {
+            const div = document.createElement("div");
+            div.innerText = city;
+            div.style.padding = "10px";
+            div.style.cursor = "pointer";
+            div.style.color = "#0A2540";
+            div.style.backgroundColor = "#fff";
+
+            div.onmouseover = () => div.style.background = "#f1f1f1";
+            div.onmouseout = () => div.style.background = "#fff";
+
+            div.onclick = () => {
+                document.getElementById("cityInput").value = city;
+                suggestionBox.style.display = "none";
+            };
+
+            suggestionBox.appendChild(div);
+        });
+
+        suggestionBox.style.display = "block";
+    }
+
+    // ------------------ SEARCH FUNCTION ------------------
+    function searchProperty() {
+        const city = document.getElementById("cityInput").value;
+        const type = document.querySelector("select").value;
+
+        if (!city) {
+            alert("Please select a city");
+            return;
+        }
+
+        window.location.href =
+            `properties.html?city=${encodeURIComponent(city)}&type=${encodeURIComponent(type)}`;
+    }
+
+    function openProperty(id) {
+    window.location.href = `property-details.html?featured=${id}`;
+}
+
+
+
+
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // -------- AUTH GUARD --------
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            console.log("Not logged in, redirecting to login.html");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const authArea = document.getElementById("authArea");
+        const sellerLink = document.getElementById("sellerLink");
+
+        // Safer default values
+        const username = localStorage.getItem("username") || "User";
+        const role = localStorage.getItem("role") || "user";
+
+        // -------- SHOW USERNAME + LOGOUT BUTTON --------
+        if (authArea) {
+            authArea.innerHTML = `
+                <span style="margin-right:10px;">Hi, ${username}</span>
+                <a href="#" id="logoutBtn">Logout</a>
+            `;
+        }
+
+        // -------- ROLE-BASED LINK --------
+        if (sellerLink) {
+            sellerLink.style.display = (role === "seller") ? "inline" : "none";
+        }
+
+        // -------- LOGOUT FUNCTIONALITY --------
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.clear();
+                window.location.href = "login.html";
+            });
+        }
+    });
+
+</script>>
+<script>
+    function addToWishlist(event, btn, title, city, price, details, imageUrl) {
+        event.stopPropagation();
+
+        // ❤️ turn heart red immediately
+        btn.classList.add("active");
+
+        const username = localStorage.getItem("username");
+
+        if (!username) {
+            alert("Please login first");
+            return;
+        }
+
+        fetch("http://localhost:8083/api/wishlist", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                title: title,
+                city: city,
+                description: details,
+                price: price,
+                imageUrl: imageUrl
+            })
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Failed to add wishlist");
+            }
+            return res.json();
+        })
+        .then(() => {
+            // optional redirect
+            window.location.href = "wishlist.html";
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Wishlist failed. Check console.");
+        });
+    }
+</script>
+
+</body>
+</html>

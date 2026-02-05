@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EliteHomes | Contact Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #F5F7FA;
+            color: #0A2540;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        header {
+            background-color: #0A2540;
+            padding: 18px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #FFFFFF;
+            margin-left: 30px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #C9A227;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(10,37,64,0.85), rgba(10,37,64,0.85)),
+                        url('https://via.placeholder.com/1600x500') center/cover;
+            color: #FFFFFF;
+            padding: 80px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Layout */
+        .container {
+            padding: 70px 80px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+        }
+
+        /* Contact Info */
+        .info {
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .info h2 {
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .info strong {
+            color: #0A2540;
+        }
+
+        /* Form */
+        .form-box {
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 14px;
+            width: 100%;
+            background-color: #C9A227;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Map */
+        .map {
+            margin-top: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0A2540;
+            color: #FFFFFF;
+            padding: 35px 80px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <img src="images/home.png" alt="EliteHomes Logo" style="height:36px;">
+        <span style="font-size:24px;font-weight:700;color:#FFFFFF;">
+            Elite<span style="color:#C9A227;">Homes</span>
+        </span>
+    </div>
+
+    <nav style="display:flex; align-items:center; gap:30px;">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="seller.html" id="sellerLink" style="display:none;">Sell</a>
+        <!-- Auth area: only username + logout -->
+        <div id="authArea" style="display:flex; align-items:center; gap:12px;"></div>
+    </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <h1>Get in Touch</h1>
+    <p>
+        Have questions or need expert guidance? Our team is here to help you
+        find the right property with confidence.
+    </p>
+</section>
+
+<!-- Content -->
+<div class="container">
+
+    <!-- Contact Info -->
+    <div class="info">
+        <h2>Contact Information</h2>
+        <p><strong>Address:</strong> EliteHomes HQ, Whitefield, Bangalore</p>
+        <p><strong>Email:</strong> support@elitehomes.com</p>
+        <p><strong>Phone:</strong> +91 98765 43210</p>
+        <p><strong>Working Hours:</strong> Mon – Sat, 9:00 AM – 6:00 PM</p>
+
+        <div class="map">
+            <iframe src="https://www.google.com/maps?q=Whitefield,Bangalore&output=embed"></iframe>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="form-box">
+        <h2>Send Us a Message</h2>
+
+        <form id="contactForm">
+            <label>Full Name</label>
+            <input type="text" placeholder="Your name" required>
+
+            <label>Email Address</label>
+            <input type="email" placeholder="Your email" required>
+
+            <label>Phone Number</label>
+            <input type="text" placeholder="Your phone">
+
+            <label>Message</label>
+            <textarea placeholder="Write your message here" required></textarea>
+
+            <button type="submit">Submit Message</button>
+
+            <!-- Success message will appear here -->
+            <p id="successMsg" style="color:green; margin-top:15px; display:none;"></p>
+        </form>
+    </div>
+
+
+</div>
+
+<!-- Footer -->
+<footer>
+    © 2025 EliteHomes. All rights reserved.
+</footer>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const authArea = document.getElementById("authArea");
+
+        // Check if user is logged in
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+
+        if (!isLoggedIn) {
+            // Redirect to login page if not logged in
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Show username + logout button
+        if (authArea) {
+            authArea.innerHTML = `
+
+                <a href="#" id="logoutBtn">Logout</a>
+            `;
+
+            document.getElementById("logoutBtn").addEventListener("click", () => {
+                localStorage.clear();
+                window.location.href = "login.html";
+            });
+        }
+        if (sellerLink) {
+            sellerLink.style.display = (role === "seller") ? "inline" : "none";
+        }
+    });
+
+</script>
+<script>
+    // Contact form submission
+const contactForm = document.getElementById("contactForm");
+const successMsg = document.getElementById("successMsg");
+
+contactForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent page refresh
+
+    // Here you can also send data to backend via fetch() if needed
+
+    successMsg.innerText = "Your message has been submitted!";
+    successMsg.style.display = "block";
+
+    // Clear form fields
+    contactForm.reset();
+
+    // Hide the message after 5 seconds
+    setTimeout(() => {
+        successMsg.style.display = "none";
+    }, 5000);
+});
+
+</script>
+</body>
+</html>

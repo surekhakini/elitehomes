@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EliteHomes | Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+     box-sizing: border-box;
+ }
+
+ body {
+     margin: 0;
+     font-family: 'Segoe UI', Tahoma, sans-serif;
+     background:
+         linear-gradient(rgba(10, 37, 64, 0.88), rgba(10, 37, 64, 0.88)),
+         url('https://via.placeholder.com/1600x900') center / cover no-repeat;
+     min-height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 20px;
+ }
+
+ /* ===== Card ===== */
+ .card {
+     width: 100%;
+     max-width: 520px;
+     background: rgba(255, 255, 255, 0.96);
+     backdrop-filter: blur(10px);
+     padding: 40px 35px;
+     border-radius: 16px;
+     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+     animation: fadeUp 0.7s ease;
+ }
+
+ @keyframes fadeUp {
+     from {
+         opacity: 0;
+         transform: translateY(30px) scale(0.98);
+     }
+     to {
+         opacity: 1;
+         transform: translateY(0) scale(1);
+     }
+ }
+
+ /* ===== Logo ===== */
+ .logo {
+     text-align: center;
+     margin-bottom: 30px;
+ }
+
+ .logo img {
+     height: 46px;
+ }
+
+ .logo h2 {
+     margin: 10px 0 0;
+     font-size: 26px;
+     color: #0A2540;
+ }
+
+ .logo span {
+     color: #C9A227;
+ }
+
+ /* ===== Form ===== */
+ .form-group {
+     width: 100%;
+     margin-bottom: 16px;
+ }
+
+ label {
+     display: block;
+     margin-bottom: 6px;
+     font-size: 13px;
+     font-weight: 600;
+     color: #0A2540;
+ }
+
+ /* ===== Inputs ===== */
+ input,
+ select {
+     width: 100%;
+     padding: 14px;
+     font-size: 14px;
+     border-radius: 10px;
+     border: 1px solid #d1d5db;
+     outline: none;
+     transition: all 0.3s ease;
+ }
+
+ input::placeholder {
+     color: #9ca3af;
+ }
+
+ input:focus,
+ select:focus {
+     border-color: #C9A227;
+     box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
+ }
+
+ /* ===== Button ===== */
+ button {
+     width: 100%;
+     margin-top: 22px;
+     padding: 15px;
+     border-radius: 12px;
+     background: linear-gradient(135deg, #C9A227, #b8961f);
+     color: #fff;
+     font-size: 15px;
+     font-weight: 700;
+     border: none;
+     cursor: pointer;
+     letter-spacing: 0.4px;
+     transition: all 0.3s ease;
+ }
+
+ button:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 15px 30px rgba(201, 162, 39, 0.45);
+ }
+
+ /* ===== Message ===== */
+ .message {
+     margin-top: 18px;
+     text-align: center;
+     font-size: 14px;
+     font-weight: 600;
+ }
+
+ .success {
+     color: #15803d;
+ }
+
+ .error {
+     color: #b91c1c;
+ }
+
+ /* ===== Links ===== */
+ .links,
+ .link {
+     text-align: center;
+     margin-top: 18px;
+     font-size: 14px;
+ }
+
+ .links a,
+ .link a {
+     color: #0A2540;
+     font-weight: 600;
+     text-decoration: none;
+     transition: color 0.3s ease;
+ }
+
+ .links a:hover,
+ .link a:hover {
+     color: #C9A227;
+     text-decoration: underline;
+ }
+
+ /* ===== Mobile Optimization ===== */
+ @media (max-width: 480px) {
+     .card {
+         padding: 32px 24px;
+     }
+
+     .logo h2 {
+         font-size: 24px;
+     }
+ }
+
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="logo">
+    <img src="images/home.png" alt="EliteHomes Logo">
+    <h2>Elite<span>Homes</span></h2>
+  </div>
+
+  <form id="signupForm">
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="signupName" required>
+    </div>
+
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="signupUsername" required>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="signupEmail" required>
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="signupPassword" required>
+    </div>
+
+    <div class="form-group">
+      <label>Role</label>
+      <select id="signupRole" required>
+        <option value="">Select Role</option>
+        <option value="buyer">Buyer</option>
+        <option value="seller">Seller</option>
+      </select>
+    </div>
+
+    <button type="submit">Create Account</button>
+  </form>
+
+
+  <div id="signupMessage" class="message"></div>
+
+  <div class="links">
+    Already have an account?
+    <a href="login.html">Login</a>
+  </div>
+
+  <div class="link">
+    <a onclick="window.location.href='home.html'">← Back to Home</a>
+  </div>
+</div>
+
+<script>
+  const signupForm = document.getElementById("signupForm");
+
+  signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const signupData = {
+          name: document.getElementById("signupName").value,
+          username: document.getElementById("signupUsername").value,
+          email: document.getElementById("signupEmail").value,
+          password: document.getElementById("signupPassword").value,
+          role: document.getElementById("signupRole").value
+      };
+
+      try {
+          const response = await fetch("http://localhost:8083/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(signupData)
+          });
+
+          const result = await response.text();
+
+          if (result === "Signup Successful") {
+              document.getElementById("signupMessage").textContent =
+                  "Account created successfully! Redirecting to login...";
+              document.getElementById("signupMessage").className =
+                  "message success";
+
+              setTimeout(() => {
+                  window.location.href = "login.html";
+              }, 1000);
+          } else {
+              document.getElementById("signupMessage").textContent = "User Already exists!";
+              document.getElementById("signupMessage").className =
+                  "message error";
+          }
+      } catch (err) {
+          document.getElementById("signupMessage").textContent =
+              "Server error. Try again.";
+          document.getElementById("signupMessage").className =
+              "message error";
+      }
+  });
+</script>
+
+</body>
+</html>
